@@ -36,16 +36,18 @@ println "   -- os_arch  : ${os_arch}"
 println "   -- lib_name : ${lib_name}"
 println ""
 
-task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
+task cmake(type: Exec, dependsOn: [assemble, ":core:generateJniFiles"]) {
     doFirst {
-        println "make buildDir"
+        println "make buildDir = ${buildDir.exists()}"
         buildDir.mkdirs()
         println("check buildDir = ${buildDir.exists()}, rootDir = ${rootDir.exists()}")
         println("cmake -DFIND_JNI=on -S ${rootDir} -B ${buildDir}")
     }
-    assert buildDir.exists()
-    workingDir buildDir
-    commandLine 'cmake', '-DFIND_JNI=on', '-S', rootDir, '-B', buildDir
+    doLast {
+        assert buildDir.exists()
+        workingDir buildDir
+        commandLine 'cmake', '-DFIND_JNI=on', '-S', rootDir, '-B', buildDir
+    }
 }
 
 task make(type: Exec, dependsOn: cmake) {
