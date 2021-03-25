@@ -86,3 +86,4 @@ lint/tmp/
 
 desktop/libs/
 maven_local/
+core/src/main/jni/
