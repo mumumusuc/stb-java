@@ -40,6 +40,8 @@ task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
     doFirst {
         buildDir.mkdir()
     }
+    println("check buildDir = ${buildDir.exists()}, rootDir = ${rootDir.exists()}")
+    println("cmake -DFIND_JNI=on -S ${rootDir} -B ${buildDir}")
     workingDir buildDir
     commandLine 'cmake', '-DFIND_JNI=on', '-S', rootDir, '-B', buildDir
 }
