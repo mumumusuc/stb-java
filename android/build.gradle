@@ -49,3 +49,7 @@ dependencies {
 afterEvaluate {
     externalNativeBuildRelease.dependsOn ':core:generateJniFiles'
 }
+
+clean {
+    delete file(".cxx")
+}
