@@ -3,18 +3,14 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
-    jcenter()
     mavenCentral()
-}
-
-ext {
-    jnigenVersion = '2.0.1-SNAPSHOT'
+    jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
 
-    implementation "com.badlogicgames.gdx:gdx-jnigen:$jnigenVersion"
+    implementation "com.github.mumumusuc.gdx-jnigen:gdx-jnigen:android-SNAPSHOT"
 }
