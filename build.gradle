@@ -1,0 +1,71 @@
+buildscript {
+    ext {
+        kotlin_version = '1.4.31'
+        ndk_version = '22.0.7026061'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        google()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+        google()
+    }
+}
+
+
+group "com.mumumusuc"
+version "0.0.1"
+
+gradle.projectsEvaluated {
+    apply plugin: "maven-publish"
+
+    publishing {
+        publications {
+            JarPublication(MavenPublication) {
+                groupId project.group
+                version project.version
+                artifactId "stb"
+                project(":core") {
+                    artifact sourcesJar
+                    artifact jar
+                }
+            }
+            DesktopPublication(MavenPublication) {
+                groupId project.group
+                version project.version
+
+                artifactId "stb-jni"
+                project(":desktop") {
+                    artifact nativeJar
+                }
+            }
+            AndroidPublication(MavenPublication) {
+                groupId project.group
+                version project.version
+
+                artifactId "stb-android"
+                project(":android") {
+                    artifact bundleReleaseAar
+                }
+            }
+        }
+        repositories {
+            maven {
+                name = "maven_local"
+                url = "file://${rootDir}/maven_local"
+            }
+        }
+    }
+}

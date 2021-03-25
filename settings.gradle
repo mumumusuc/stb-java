@@ -1,0 +1,5 @@
+rootProject.name = 'stb-java'
+include ':core'
+include ':android'
+include ':desktop'
+

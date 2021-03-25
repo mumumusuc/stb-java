@@ -1,0 +1,20 @@
+plugins {
+    id 'groovy'
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+}
+
+ext {
+    jnigenVersion = '2.0.1-SNAPSHOT'
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+    implementation "com.badlogicgames.gdx:gdx-jnigen:$jnigenVersion"
+}

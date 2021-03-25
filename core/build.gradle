@@ -1,0 +1,28 @@
+import com.mumumusuc.generate.GenerateJni
+
+plugins {
+    id 'java'
+    id 'kotlin'
+}
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+sourceSets {
+    main.java.srcDirs = ['src/main/java']
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+task generateJniFiles(type: GenerateJni, dependsOn: assemble)
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.java.srcDirs
+    classifier "sources"
+}

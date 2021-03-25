@@ -1,0 +1,71 @@
+plugins {
+    id "java"
+    id "kotlin"
+    id "com.google.osdetector" version "1.7.0"
+}
+
+dependencies {
+    testRuntimeOnly fileTree(includes: ["*.jar"],dir: "libs")
+    testImplementation project(":core")
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.6.0"
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+sourceSets.test.java.srcDirs = ['src/test/java']
+
+def lib = "stb"
+def lib_name = ""
+def os_name = osdetector.os
+def os_arch = osdetector.arch
+if (os_name.contains("win")) {
+    lib_name = "${lib}.dll"
+} else if (os_name.contains("mac")) {
+    lib_name = "lib${lib}.dylib"
+} else {
+    lib_name = "lib${lib}.so"
+}
+assert !lib_name.isEmpty()
+
+println ""
+println "   -- os_name  : ${os_name}"
+println "   -- os_arch  : ${os_arch}"
+println "   -- lib_name : ${lib_name}"
+println ""
+
+task cmake(type: Exec, dependsOn: [assemble, ":core:generateJniFiles"]) {
+    workingDir buildDir
+    commandLine 'cmake', '-DFIND_JNI=on', '-S', project.rootDir, '-B', project.buildDir
+}
+
+task make(type: Exec, dependsOn: cmake) {
+    workingDir buildDir
+    commandLine 'make'
+    doLast {
+        copy {
+            from "${buildDir}/${lib_name}"
+            into "${projectDir}/libs"
+        }
+    }
+}
+
+task nativeJar(type: Jar, dependsOn: make) {
+    from "${projectDir}/libs"
+    include lib_name
+    into "com/mumumusuc/stb/natives/$os_name/$os_arch"
+    doLast {
+        copy {
+            from "${buildDir}/libs/desktop.jar"
+            into "${projectDir}/libs"
+        }
+    }
+}
+
+test {
+    dependsOn nativeJar
+    workingDir rootDir
+    useJUnitPlatform()
+}
