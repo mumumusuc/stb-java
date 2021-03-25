@@ -38,7 +38,8 @@ println ""
 
 task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
     doFirst {
-        buildDir.mkdir()
+        println "make buildDir"
+        buildDir.mkdirs()
     }
     println("check buildDir = ${buildDir.exists()}, rootDir = ${rootDir.exists()}")
     println("cmake -DFIND_JNI=on -S ${rootDir} -B ${buildDir}")
@@ -73,8 +74,4 @@ test {
     dependsOn nativeJar
     workingDir rootDir
     useJUnitPlatform()
-}
-
-clean {
-    delete buildDir
 }
