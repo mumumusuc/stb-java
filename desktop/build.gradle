@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    testRuntimeOnly fileTree(includes: ["*.jar"],dir: "libs")
+    testRuntimeOnly fileTree(includes: ["*.jar"], dir: "libs")
     testImplementation project(":core")
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
@@ -36,9 +36,12 @@ println "   -- os_arch  : ${os_arch}"
 println "   -- lib_name : ${lib_name}"
 println ""
 
-task cmake(type: Exec, dependsOn: [assemble, ":core:generateJniFiles"]) {
+task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
+    doFirst {
+        buildDir.mkdir()
+    }
     workingDir buildDir
-    commandLine 'cmake', '-DFIND_JNI=on', '-S', project.rootDir, '-B', project.buildDir
+    commandLine 'cmake', '-DFIND_JNI=on', '-S', rootDir, '-B', buildDir
 }
 
 task make(type: Exec, dependsOn: cmake) {
@@ -68,4 +71,8 @@ test {
     dependsOn nativeJar
     workingDir rootDir
     useJUnitPlatform()
+}
+
+clean {
+    delete buildDir
 }
