@@ -10,7 +10,7 @@ else
 fi
 
 echo "check android_sdk ..."
-ls -al /opt/android-sdk-linux/
+ls -al $ANDROID_HOME
 
 echo "check cmake ..."
 whereis cmake

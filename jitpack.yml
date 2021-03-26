@@ -4,4 +4,5 @@ before_install:
   - ./jitpack_setup.sh
 install:
    - echo "Running a custom install command"
+   - export PATH=$PATH:$ANDROID_HOME/cmake/3.10.2.4988404/bin
    - ./gradlew publish --stacktrace
