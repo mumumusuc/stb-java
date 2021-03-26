@@ -9,3 +9,12 @@ else
     echo "    -- OK!"
 fi
 
+echo "check cmake ..."
+whereis cmake
+cmake -version
+
+echo "check project"
+ls -al
+
+echo "all done"
+

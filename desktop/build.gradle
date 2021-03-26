@@ -46,7 +46,7 @@ task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
     assert rootProject.file("third_party/stb").exists()
     assert buildDir.exists()
     workingDir buildDir
-    commandLine 'cmake', '-DFIND_JNI=on', '-S', rootDir, '-B', buildDir
+    commandLine 'cmake', '-DFIND_JNI=on', '-S', rootDir
 }
 
 task make(type: Exec, dependsOn: cmake) {
