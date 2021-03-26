@@ -37,12 +37,12 @@ println "   -- lib_name : ${lib_name}"
 println ""
 
 task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
-    doFirst {
+    //doFirst {
         println "check third_party  --- ${rootProject.file("third_party/stb").exists()}"
         println "check buildDir     --- ${buildDir.exists()}"
         println("check scripte      --- cmake -DFIND_JNI=on -S ${rootDir} -B ${buildDir}")
         buildDir.mkdirs()
-    }
+    //}
     assert rootProject.file("third_party/stb").exists()
     assert buildDir.exists()
     workingDir buildDir
