@@ -47,7 +47,7 @@ dependencies {
 }
 
 afterEvaluate {
-    externalNativeBuildRelease.dependsOn ':core:generateJniFiles'
+    preBuild.dependsOn ':core:generateJniFiles'
 }
 
 clean {
