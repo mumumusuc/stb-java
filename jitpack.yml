@@ -1,5 +1,6 @@
 before_install:
-  - sdkmanager "cmake;3.10.2.4988404"
+  - yes | sdkmanager "cmake;3.10.2.4988404"
+  - yes | sdkmanager "ndk;22.0.7026061"
   - ./jitpack_setup.sh
 install:
    - echo "Running a custom install command"

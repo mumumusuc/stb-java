@@ -9,6 +9,9 @@ else
     echo "    -- OK!"
 fi
 
+echo "check android_sdk ..."
+ls -al /opt/android-sdk-linux/
+
 echo "check cmake ..."
 whereis cmake
 cmake -version
