@@ -17,7 +17,7 @@ message(STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
 include_directories(${JNI_INCLUDE_DIRS})
 endif()
 
-add_library(${TARGET} SHARED ${JNI_SRCS} dummy.cpp)
+add_library(${TARGET} SHARED ${JNI_SRCS})
 target_include_directories(${TARGET} INTERFACE ${PUBLIC_HDR_DIR})
 
 file(GLOB_RECURSE PUBLIC_HDRS ${PUBLIC_HDR_DIR}/*.h)
