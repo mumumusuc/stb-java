@@ -37,12 +37,10 @@ println "   -- lib_name : ${lib_name}"
 println ""
 
 task cmake(type: Exec, dependsOn: ":core:generateJniFiles") {
-    //doFirst {
-        println "check third_party  --- ${rootProject.file("third_party/stb").exists()}"
-        println "check buildDir     --- ${buildDir.exists()}"
-        println("check scripte      --- cmake -DFIND_JNI=on -S ${rootDir} -B ${buildDir}")
-        buildDir.mkdirs()
-    //}
+    println "check third_party  --- ${rootProject.file("third_party/stb").exists()}"
+    println "check buildDir     --- ${buildDir.exists()}"
+    println("check scripte      --- cmake -DFIND_JNI=on -S ${rootDir} -B ${buildDir}")
+    buildDir.mkdirs()
     assert rootProject.file("third_party/stb").exists()
     assert buildDir.exists()
     workingDir buildDir
@@ -55,15 +53,18 @@ task make(type: Exec, dependsOn: cmake) {
     doLast {
         copy {
             from "${buildDir}/${lib_name}"
-            into "${projectDir}/libs"
+            into "${projectDir}/libs/${os_name}/${os_arch}"
         }
     }
 }
 
-task nativeJar(type: Jar, dependsOn: make) {
-    from "${projectDir}/libs"
-    include lib_name
-    into "com/mumumusuc/stb/natives/$os_name/$os_arch"
+task nativeJar(type: Jar) {
+    if (hasProperty("use_prebuilt")) {
+        assert file("libs").list().size() > 0
+    }
+    from "${projectDir}/libs/"
+    include "${os_name}/${os_arch}/${lib_name}"
+    into "com/mumumusuc/stb/natives/"
     doLast {
         copy {
             from "${buildDir}/libs/desktop.jar"
@@ -71,6 +72,11 @@ task nativeJar(type: Jar, dependsOn: make) {
         }
     }
 }
+
+if (!hasProperty("use_prebuilt")) {
+    nativeJar.dependsOn make
+}
+
 
 test {
     dependsOn nativeJar

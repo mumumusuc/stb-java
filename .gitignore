@@ -84,6 +84,6 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-desktop/libs/
+desktop/libs/*.jar
 maven_local/
 core/src/main/jni/

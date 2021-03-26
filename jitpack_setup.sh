@@ -12,11 +12,7 @@ fi
 echo "check android_sdk ..."
 ls -al $ANDROID_HOME
 
-echo "check cmake ..."
-whereis cmake
-cmake -version
-
-echo "check project"
+echo "check project ..."
 ls -al
 
 echo "all done"
