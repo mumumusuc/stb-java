@@ -3,4 +3,4 @@ before_install:
   - yes | sdkmanager "ndk;22.0.7026061"
   - ./jitpack_setup.sh
 install:
-   - ./gradlew publish -Puse_prebuilt --stacktrace
+   - ./gradlew publishToMavenLocal -Puse_prebuilt --stacktrace
