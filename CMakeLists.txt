@@ -5,10 +5,10 @@ option(FIND_JNI "find local jni library" OFF)
 
 set(TARGET          stb)
 set(PUBLIC_HDR_DIR  third_party/stb)
-set(JNI_DIR         core/src/main)
+set(JNI_DIR         core/src/main/jni)
+set(JNI_SRCS        ${JNI_DIR}/com_mumumusuc_stb_StbImageNative.cpp)
 
-include_directories(${JNI_DIR}/jni ${PUBLIC_HDR_DIR})
-aux_source_directory(${JNI_DIR}/jni  JNI_SRCS)
+include_directories(${JNI_DIR} ${PUBLIC_HDR_DIR})
 
 if(FIND_JNI)
 find_package(JNI REQUIRED)
@@ -17,7 +17,7 @@ message(STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
 include_directories(${JNI_INCLUDE_DIRS})
 endif()
 
-add_library(${TARGET} SHARED ${JNI_SRCS} dummy.c)
+add_library(${TARGET} SHARED ${JNI_SRCS} dummy.cpp)
 target_include_directories(${TARGET} INTERFACE ${PUBLIC_HDR_DIR})
 
 file(GLOB_RECURSE PUBLIC_HDRS ${PUBLIC_HDR_DIR}/*.h)
