@@ -5,12 +5,9 @@ plugins {
     id 'kotlin'
 }
 
-repositories {
-    mavenLocal()
-}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "com.github.mumumusuc:native-loader:0.0.1"
 }
 
 sourceSets {
